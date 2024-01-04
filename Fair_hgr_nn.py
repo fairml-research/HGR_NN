@@ -8,7 +8,7 @@ import numpy as np
 from sklearn.utils import shuffle
 from torch.autograd import Variable
 from torch.utils.data import Dataset, DataLoader
-from models.functions import *
+from functions import *
 class RMSELoss(nn.Module):
     def __init__(self, eps=1e-6):
         super().__init__()
