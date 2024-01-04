@@ -8,7 +8,7 @@ import numpy as np
 from sklearn.utils import shuffle
 from torch.autograd import Variable
 from torch.utils.data import Dataset, DataLoader
-from functions import *
+from models.functions import *
 class RMSELoss(nn.Module):
     def __init__(self, eps=1e-6):
         super().__init__()
@@ -22,7 +22,7 @@ class RMSELoss(nn.Module):
 
 class FAIR_HGR_NN(torch.nn.Module): 
 
-    def __init__(self,regressor, mod_h,lr,p_device,nbepoch, lambdaHGR, nbepochHGR, start_epochHGR,mod_HGR_F,mod_HGR_G): 
+    def __init__(self,regressor, mod_h,lr,p_device,nbepoch, lambdaHGR, nbepochHGR, start_epochHGR,mod_HGR_F,mod_HGR_G, init_HGR): 
         super().__init__()
         self.lr = lr
         self.device = torch.device(p_device)
@@ -34,6 +34,7 @@ class FAIR_HGR_NN(torch.nn.Module):
         self.start_epochHGR = int(start_epochHGR)
         self.mF = mod_HGR_F()
         self.mG = mod_HGR_G()
+        self.init_HGR = init_HGR
 
         if regressor == 'mse':
           self.criterion = torch.nn.MSELoss(reduction='mean')
@@ -89,8 +90,16 @@ class FAIR_HGR_NN(torch.nn.Module):
             if epoch >= self.start_epochHGR:
 
                 ypred_var0 = ypred_var.detach()
-
-                for j in range(self.nbepochHGR) :
+                
+                if self.init_HGR==True:
+                    if epoch==self.start_epochHGR:
+                        nbepHGR=1000
+                    else:
+                        nbepHGR=self.nbepochHGR 
+                else:
+                    nbepHGR=self.nbepochHGR 
+                    
+                for j in range(nbepHGR) :
 
                     self.optimizer_F.zero_grad()
                     self.optimizer_G.zero_grad()
