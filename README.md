@@ -4,6 +4,8 @@ This work has been accepted at the IJCAI 2020 conference.
 
 https://www.ijcai.org/proceedings/2020/0313.pdf
 
+Link to the arxiv paper: https://arxiv.org/pdf/1911.04929.pdf
+
 The past few years have seen a dramatic rise of academic and societal interest in fair machine learning.
 While plenty of fair algorithms have been proposed recently to tackle this challenge for discrete variables, only a few ideas exist for continuous ones.
 The objective in this paper is to ensure some independence level between the outputs of regression models and any given continuous sensitive
